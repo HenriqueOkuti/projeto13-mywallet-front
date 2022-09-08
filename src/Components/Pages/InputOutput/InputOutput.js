@@ -61,7 +61,7 @@ export default function InputOutput() {
               onSubmit={(event) => handleSubmit(event)}
             >
               <InputField
-                size={true}
+                size={'100%'}
                 disabled={false}
                 type={'text'}
                 text={'Valor'}
@@ -70,7 +70,7 @@ export default function InputOutput() {
                 setData={setValue}
               />
               <InputField
-                size={true}
+                size={'100%'}
                 disabled={false}
                 type={'text'}
                 text={'Descrição'}
@@ -80,13 +80,13 @@ export default function InputOutput() {
               />
               {!disabled ? (
                 <GenericButton
-                  size={true}
+                  size={'100%'}
                   disabled={disabled}
                   text={<span>Entrar</span>}
                 ></GenericButton>
               ) : (
                 <GenericButton
-                  size={true}
+                  size={'100%'}
                   disabled={disabled}
                   text={<ThreeDots color='#FFFFFF' height={80} width={80} />}
                 ></GenericButton>

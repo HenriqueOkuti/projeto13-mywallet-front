@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { PageContainer } from '../../Shared/PageContainer';
 import { Background } from '../../Styles/Background';
 import Redirect from '../../Shared/Redirect';
+import axios from 'axios';
 
 export default function Signin() {
   const [disabled, setDisabled] = useState(false);
@@ -28,27 +29,31 @@ export default function Signin() {
     }
     event.preventDefault();
     setDisabled(!disabled);
-    let submitteddata = { ...user };
-    submitteddata = {
+    const submitteddata = {
       email: email,
       name: name,
       image: photo,
       password: password,
     };
-    setUser(submitteddata);
-    HandleSuccess();
+
+    axios
+      .post('localhost:5000/login', submitteddata)
+      .then(HandleSuccess)
+      .catch(HandleFailure);
   }
 
   function HandleSuccess(event) {
-    navigate('/');
+    setDisabled(!disabled);
+    console.log('success');
+    //navigate('/');
   }
 
   function HandleFailure(event) {
+    console.log('failure');
     if (event !== undefined) {
       alert(
         'Não foi possível realizar seu cadastro! Tente novamente com outras informações'
       );
-      setDisabled(!disabled);
       setFailure(!failure);
     }
   }
@@ -104,7 +109,7 @@ export default function Signin() {
           ) : (
             <GenericButton
               disabled={disabled}
-              text={<ThreeDots color='#FFFFFF' height={80} width={80} />}
+              text={<ThreeDots color='#FFFFFF' height={30} width={50} />}
             ></GenericButton>
           )}
         </FormsContainer>

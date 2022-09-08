@@ -14,7 +14,7 @@ const Button = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  width: ${(props) => (props.size ? '100%' : '300px')};
+  width: ${(props) => (props.size === '100%' ? '100%' : '300px')};
   height: 45px;
   background: #a328d6;
   border-radius: 5px;

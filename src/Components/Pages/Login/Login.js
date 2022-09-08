@@ -8,6 +8,7 @@ import { useContext, useEffect, useState } from 'react';
 import { Background } from '../../Styles/Background';
 import { PageContainer } from '../../Shared/PageContainer';
 import Redirect from '../../Shared/Redirect';
+import axios from 'axios';
 
 export default function Login() {
   const [disabled, setDisabled] = useState(false);
@@ -21,21 +22,37 @@ export default function Login() {
   });
   const navigate = useNavigate();
 
+  useEffect(() => {
+    setDisabled(false);
+  }, [failure]);
+
   function HandleSubmit(event) {
     event.preventDefault();
     setDisabled(!disabled);
-    let submitteddata = { ...user };
-    submitteddata = {
+    const submitteddata = {
       email: email,
       password: password,
     };
-    setUser(submitteddata);
-    console.log(submitteddata);
-    HandleSuccess();
+    axios
+      .post('localhost:5000/sign-in', submitteddata)
+      .then(HandleSuccess)
+      .catch(HandleFailure);
   }
 
   function HandleSuccess() {
-    navigate('/home');
+    setDisabled(!disabled);
+    console.log('success');
+    //navigate('/home');
+  }
+
+  function HandleFailure(event) {
+    console.log('failure');
+    if (event !== undefined) {
+      alert(
+        'Não foi possível realizar seu cadastro! Tente novamente com outras informações'
+      );
+      setFailure(!failure);
+    }
   }
 
   return (

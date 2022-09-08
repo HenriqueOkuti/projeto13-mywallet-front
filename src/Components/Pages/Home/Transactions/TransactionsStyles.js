@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 
 const TransactionsContainer = styled.div`
+  position: relative;
   font-family: 'Raleway', sans-serif;
   font-style: normal;
   font-weight: 400;
@@ -8,6 +9,7 @@ const TransactionsContainer = styled.div`
   line-height: 20px;
   color: #000000;
   overflow-y: scroll;
+  overflow-x: hidden;
   height: 100%;
 `;
 
@@ -20,7 +22,7 @@ const Value = styled.div`
   justify-self: flex-end;
   color: ${(props) => (props.type === 'input' ? '#03AC00' : '#C70000')};
 `;
-const Exclude = styled.button`
+const Exclude = styled.div`
   justify-self: flex-end;
   color: #c6c6c6;
 `;
@@ -41,6 +43,30 @@ const Empty = styled.div`
   font-weight: bold;
 `;
 
+const Balance = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: sticky;
+  bottom: 0px;
+  height: 35px;
+  width: 100%;
+  margin: 0 0 0 0;
+  padding: 0 15px 0 15px;
+  background-color: #f5f5f5;
+  font-family: 'Raleway', sans-serif;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 20px;
+  color: #000000;
+`;
+
+const UserValue = styled.div`
+  color: ${(props) =>
+    props.net === 0 ? '#000000' : props.net > 0 ? '#03AC00' : '#C70000'};
+`;
+
 export {
   TransactionsContainer,
   Date,
@@ -49,4 +75,6 @@ export {
   Exclude,
   TransactionContainer,
   Empty,
+  Balance,
+  UserValue,
 };
