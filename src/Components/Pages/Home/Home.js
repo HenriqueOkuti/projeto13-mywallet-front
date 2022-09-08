@@ -12,6 +12,7 @@ import {
 import { AiFillMinusCircle, AiFillPlusCircle } from 'react-icons/ai';
 import { BsDoorOpen } from 'react-icons/bs';
 import { Link, useNavigate } from 'react-router-dom';
+import Transactions from './Transactions/Transactions';
 
 export default function Home() {
   const navigate = useNavigate();
@@ -27,7 +28,9 @@ export default function Home() {
               <BsDoorOpen />
             </AuxButton>
           </HomeHeader>
-          <HomeBody>This is the BODY</HomeBody>
+          <HomeBody>
+            <Transactions />
+          </HomeBody>
           <HomeFooter>
             <FooterMenu
               onClick={() =>

@@ -26,7 +26,7 @@ const HomeHeader = styled.div`
 
 const HomeBody = styled.div`
   width: 80vw;
-  height: 446px;
+  height: 350px;
   background: #ffffff;
   border-radius: 5px;
   margin: 30px 0 0 0;
@@ -67,6 +67,9 @@ const AuxDiv = styled.div`
 
 const AuxButton = styled.button`
   font-size: ${(props) => props.size};
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
 
 export {

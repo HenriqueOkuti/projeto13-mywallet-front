@@ -34,6 +34,12 @@ export default function InputOutput() {
     console.log(submitteddata);
 
     //VerifyData
+    //Cash Regex:
+    //^\$?(?!0.00)(([0-9]{1,3},([0-9]{3},)*)[0-9]{3}|[0-9]{1,3})(\.[0-9]{2})?$
+
+    //Data ok ? send to server
+
+    //data sent ? navigate to home
   }
 
   return (
