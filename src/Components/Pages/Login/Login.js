@@ -10,6 +10,12 @@ import { PageContainer } from '../../Shared/PageContainer';
 import Redirect from '../../Shared/Redirect';
 import axios from 'axios';
 
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//////////////////////////////////////////////////////////////
+//IMPORTANT:
+//THE TOKEN IS RECIEVED HERE!
+
 export default function Login() {
   const [disabled, setDisabled] = useState(false);
   const [failure, setFailure] = useState(false);
@@ -34,19 +40,17 @@ export default function Login() {
       password: password,
     };
     axios
-      .post('localhost:5000/sign-in', submitteddata)
+      .post('http://localhost:5000/login', submitteddata)
       .then(HandleSuccess)
       .catch(HandleFailure);
   }
 
-  function HandleSuccess() {
+  function HandleSuccess(event) {
     setDisabled(!disabled);
-    console.log('success');
-    //navigate('/home');
+    navigate('/home', { state: { id: 1, token: event.data } });
   }
 
   function HandleFailure(event) {
-    console.log('failure');
     if (event !== undefined) {
       alert(
         'Não foi possível realizar seu cadastro! Tente novamente com outras informações'

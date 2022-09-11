@@ -9,19 +9,24 @@ import { PageContainer } from '../../Shared/PageContainer';
 import { Background } from '../../Styles/Background';
 import Redirect from '../../Shared/Redirect';
 import axios from 'axios';
+import { stripHtml } from 'string-strip-html';
 
 export default function Signin() {
-  const [disabled, setDisabled] = useState(false);
+  const [disabled, setDisabled] = useState(true);
   const [failure, setFailure] = useState(false);
   const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [password1, setPassword1] = useState('');
   const [name, setName] = useState('');
-  const [photo, setPhoto] = useState('');
+  const [password2, setPassword2] = useState('');
   const [user, setUser] = useState({
     email: '',
-    password: '',
+    password1: '',
   });
   let navigate = useNavigate();
+
+  useEffect(() => {
+    setDisabled(!disabled);
+  }, [failure]);
 
   function HandleSubmit(event) {
     if (event === undefined) {
@@ -29,38 +34,60 @@ export default function Signin() {
     }
     event.preventDefault();
     setDisabled(!disabled);
-    const submitteddata = {
+    let submitteddata = {
       email: email,
-      name: name,
-      image: photo,
-      password: password,
+      name: stripHtml(name).result,
+      password1: password1,
+      password2: password2,
     };
+    let dataValid = verifyData(submitteddata);
+    if (dataValid) {
+      const send = {
+        name: submitteddata.name,
+        email: submitteddata.email,
+        password: submitteddata.password1,
+      };
 
-    axios
-      .post('localhost:5000/login', submitteddata)
-      .then(HandleSuccess)
-      .catch(HandleFailure);
-  }
+      console.log(send.name);
 
-  function HandleSuccess(event) {
-    setDisabled(!disabled);
-    console.log('success');
-    //navigate('/');
-  }
-
-  function HandleFailure(event) {
-    console.log('failure');
-    if (event !== undefined) {
-      alert(
-        'Não foi possível realizar seu cadastro! Tente novamente com outras informações'
-      );
-      setFailure(!failure);
+      axios
+        .post('http://localhost:5000/sign-in', send)
+        .then(handleSuccess)
+        .catch(handleFailure);
+    }
+    if (!dataValid) {
+      handleFailure();
     }
   }
 
-  useEffect(() => {
-    setDisabled(false);
-  }, [failure]);
+  function verifyData(submitteddata) {
+    if (submitteddata.password1 !== submitteddata.password2) {
+      return false;
+    }
+
+    //Valid return true
+    return true;
+  }
+
+  function handleSuccess(event) {
+    setDisabled(!disabled);
+    navigate('/');
+  }
+
+  function handleFailure(event) {
+    if (event !== undefined) {
+      console.log(event);
+      //Wrong password:
+      alert(
+        'Não foi possível realizar seu cadastro! Verifique as informações inseridas'
+      );
+      //Email already registered:
+
+      setFailure(!failure);
+    } else {
+      setFailure(!failure);
+    }
+  }
 
   return (
     <>
@@ -81,13 +108,6 @@ export default function Signin() {
             setData={setEmail}
           ></InputField>
           <InputField
-            info={'password'}
-            disabled={disabled}
-            type='password'
-            text={'senha'}
-            setData={setPassword}
-          ></InputField>
-          <InputField
             info={'name'}
             disabled={disabled}
             type='text'
@@ -95,11 +115,18 @@ export default function Signin() {
             setData={setName}
           ></InputField>
           <InputField
-            info={'image'}
+            info={'password'}
             disabled={disabled}
-            type='text'
-            text={'foto'}
-            setData={setPhoto}
+            type='password'
+            text={'senha'}
+            setData={setPassword1}
+          ></InputField>
+          <InputField
+            info={'password'}
+            disabled={disabled}
+            type='password'
+            text={'Confirme sua senha'}
+            setData={setPassword2}
           ></InputField>
           {!disabled ? (
             <GenericButton

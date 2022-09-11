@@ -8,6 +8,7 @@ export default function InputField({
   data,
   setData,
   size,
+  value = '',
 }) {
   // console.log(info, disabled, type, text, setData);
   return (
@@ -15,7 +16,7 @@ export default function InputField({
       <UserInput
         size={size}
         required={true}
-        minLength={3}
+        minLength={1}
         disabled={disabled}
         type={type}
         placeholder={text}
@@ -23,6 +24,7 @@ export default function InputField({
           e.info = e.target.value;
           setData(e.target.value);
         }}
+        defaultValue={value}
       ></UserInput>
     </>
   );

@@ -17,7 +17,9 @@ const Date = styled.div`
   justify-self: flex-start;
   color: #c6c6c6;
 `;
-const Title = styled.button``;
+const Title = styled.button`
+  word-break: break-all;
+`;
 const Value = styled.div`
   justify-self: flex-end;
   color: ${(props) => (props.type === 'input' ? '#03AC00' : '#C70000')};
@@ -39,7 +41,9 @@ const Empty = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin: 10px;
+  height: 90%;
+  width: 100%;
+  margin: 0;
   font-weight: bold;
 `;
 
@@ -64,8 +68,15 @@ const Balance = styled.div`
 
 const UserValue = styled.div`
   color: ${(props) =>
-    props.net === 0 ? '#000000' : props.net > 0 ? '#03AC00' : '#C70000'};
+    Math.abs(props.net) < 1e-2
+      ? '#000000'
+      : props.net > 0
+      ? '#03AC00'
+      : '#C70000'};
 `;
+
+const AuxContainer = styled.div`
+`
 
 export {
   TransactionsContainer,
@@ -77,4 +88,5 @@ export {
   Empty,
   Balance,
   UserValue,
+  AuxContainer
 };
